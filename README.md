@@ -42,7 +42,7 @@ $processor = new Wp_Rss_Bridge_Processor($bridges, 60, "User Agent");
 
 Each bridge has its own settings, defined in its own PHP class in RSS Bridge. See RSS Bridge Documentation and source code for more informations.
 
-## Filters
+### Filters
 
 Settings can also be changed using filters : 
 
