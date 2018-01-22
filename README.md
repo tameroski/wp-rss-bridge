@@ -40,4 +40,4 @@ $processor = new Wp_Rss_Bridge_Processor($bridges, 60, "User Agent");
 
 ### Bridges
 
-Each bridge has its own settings, defined in its own PHP class in RSS Bridge. See RSS Bridge Documentation and source code for more.
+Each bridge has its own settings, defined in its own PHP class in RSS Bridge. See RSS Bridge Documentation and source code for more informations.
