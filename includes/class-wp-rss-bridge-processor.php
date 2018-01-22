@@ -97,8 +97,9 @@ class Wp_Rss_Bridge_Processor {
 		$bridges = apply_filters('wp-rss-bridge_bridges', $this->bridges);
 		$cache_timeout = apply_filters('wp-rss-bridge_cache_timeout', $this->cache_timeout);
 		
-		foreach ($bridges as $bridge => $params){
-			$bridge = Bridge::create($bridge);
+		foreach ($bridges as $type => $params){
+
+			$bridge = Bridge::create($type);
 
 			$params['action'] = 'display';
 			$params['format'] = 'Json';
@@ -124,8 +125,16 @@ class Wp_Rss_Bridge_Processor {
 				$format = Format::create('Json');
 				$format->setItems($bridge->getItems());
 				$format->setExtraInfos($bridge->getExtraInfos());
+
+				$new_items = array();
+
+				// Adding bridge type to results
+				foreach ($format->getItems() as $item) {
+					$item['bridge'] = $type;
+					$new_items[] = $item;
+				}
 				
-				$items = array_merge($items, $format->getItems());
+				$items = array_merge($items, $new_items);
 
 			} catch(Exception $e) {
 				die($e);
