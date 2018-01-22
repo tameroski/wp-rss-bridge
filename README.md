@@ -41,3 +41,13 @@ $processor = new Wp_Rss_Bridge_Processor($bridges, 60, "User Agent");
 ### Bridges
 
 Each bridge has its own settings, defined in its own PHP class in RSS Bridge. See RSS Bridge Documentation and source code for more informations.
+
+## Filters
+
+Settings can also be changed using filters : 
+
+```
+$user_agent = apply_filters('wp-rss-bridge_user_agent', $user_agent);
+$bridges = apply_filters('wp-rss-bridge_bridges', $bridges);
+$cache_timeout = apply_filters('wp-rss-bridge_cache_timeout', $cache_timeout);
+```

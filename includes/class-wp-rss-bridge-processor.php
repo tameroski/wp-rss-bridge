@@ -67,10 +67,10 @@ class Wp_Rss_Bridge_Processor {
 		{
 			$user_agent = 'Mozilla/5.0(X11; Linux x86_64; rv:30.0) Gecko/20121202 Firefox/30.0(rss-bridge/0.1;+https://github.com/RSS-Bridge/rss-bridge)';
 		}
-
-		$this->user_agent = $user_agent;
 		
 		$this->bridges = $bridges;
+
+		$this->user_agent = $user_agent;
 
 		$this->cache_timeout = $cache_timeout;
 	}
@@ -85,15 +85,19 @@ class Wp_Rss_Bridge_Processor {
 
 		$data = array();
 
-		ini_set('user_agent', $this->user_agent);
+		$user_agent = apply_filters('wp-rss-bridge_user_agent', $this->user_agent);
+		ini_set('user_agent', $user_agent);
 
 		require_once __DIR__ . '/lib/rss-bridge/lib/RssBridge.php';
 
 		Bridge::setDir(__DIR__ . '/lib/rss-bridge/bridges/');
 		Format::setDir(__DIR__ . '/lib/rss-bridge/formats/');
 		Cache::setDir(__DIR__ . '/lib/rss-bridge/caches/');
+
+		$bridges = apply_filters('wp-rss-bridge_bridges', $this->bridges);
+		$cache_timeout = apply_filters('wp-rss-bridge_cache_timeout', $this->cache_timeout);
 		
-		foreach ($this->bridges as $bridge => $params){
+		foreach ($bridges as $bridge => $params){
 			$bridge = Bridge::create($bridge);
 
 			$params['action'] = 'display';
@@ -101,7 +105,7 @@ class Wp_Rss_Bridge_Processor {
 
 			$cache = Cache::create('FileCache');
 			$cache->setPath(__DIR__ . '/lib/rss-bridge/cache');
-			$cache->purgeCache($this->cache_timeout);
+			$cache->purgeCache($cache_timeout);
 			$cache->setParameters($params);
 
 			unset($params['action']);
@@ -122,6 +126,8 @@ class Wp_Rss_Bridge_Processor {
 				$format->setExtraInfos($bridge->getExtraInfos());
 				
 				$data[] = $format->getItems();
+
+				error_log(print_r($data, true));
 
 			} catch(Exception $e) {
 				die($e);
