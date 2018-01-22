@@ -8,7 +8,7 @@ Data are cached for better performances.
 
 ## Usage
 
-```
+```php
 $bridges = array(
     "Facebook" => array(
         'u' => 'zuck',
@@ -28,13 +28,13 @@ $data = $processor->get_data();
 
 Default cache timeout is 24h. This can be changed using : 
 
-```
+```php
 $processor = new Wp_Rss_Bridge_Processor($bridges, 60); // Second parameter is cache timeout in seconds.
 ```
 
 Finally, it's also possible to change the user agent ued when querying data : 
 
-```
+```php
 $processor = new Wp_Rss_Bridge_Processor($bridges, 60, "User Agent");
 ```
 
