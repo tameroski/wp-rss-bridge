@@ -83,7 +83,7 @@ class Wp_Rss_Bridge_Processor {
 	 */
 	public function get_data() {
 
-		$data = array();
+		$items = array();
 
 		$user_agent = apply_filters('wp-rss-bridge_user_agent', $this->user_agent);
 		ini_set('user_agent', $user_agent);
@@ -125,16 +125,20 @@ class Wp_Rss_Bridge_Processor {
 				$format->setItems($bridge->getItems());
 				$format->setExtraInfos($bridge->getExtraInfos());
 				
-				$data[] = $format->getItems();
-
-				error_log(print_r($data, true));
+				$items = array_merge($items, $format->getItems());
 
 			} catch(Exception $e) {
 				die($e);
 			}
 		}
 
-		return $data;
+		// Order by date desc
+		usort($items, function ($item1, $item2) {
+		    if ($item1['timestamp'] == $item2['timestamp']) return 0;
+		    return $item2['timestamp'] < $item1['timestamp'] ? -1 : 1;
+		});
+
+		return $items;
 
 	}
 
