@@ -46,7 +46,7 @@ Each bridge has its own settings, defined in its own PHP class in RSS Bridge. Se
 
 Settings can also be changed using filters : 
 
-```
+```php
 $user_agent = apply_filters('wp-rss-bridge_user_agent', $user_agent);
 $bridges = apply_filters('wp-rss-bridge_bridges', $bridges);
 $cache_timeout = apply_filters('wp-rss-bridge_cache_timeout', $cache_timeout);
