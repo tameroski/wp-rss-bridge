@@ -118,7 +118,7 @@ class Wp_Rss_Bridge_Processor {
 				$bridge->setCache($cache);
 				$bridge->setDatas($params);
 			} catch(Exception $e) {
-				die($e);
+				error_log("[Wp_Rss_Bridge_Processor] Can't use cache. Check file write permissions.");
 			}
 
 			try {
@@ -137,7 +137,7 @@ class Wp_Rss_Bridge_Processor {
 				$items = array_merge($items, $new_items);
 
 			} catch(Exception $e) {
-				die($e);
+				error_log("[Wp_Rss_Bridge_Processor] Impossible to fetch data for bridge : " . $type . ".");
 			}
 		}
 
